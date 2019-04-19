@@ -28,8 +28,8 @@ If you're interested in the Haven app, visit the [Haven website](https://havenap
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: Bearer jsonwebtoken"
+curl 'api_endpoint_here'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > Make sure to replace `jsonwebtoken` with your API key.
@@ -50,7 +50,7 @@ You must replace <code>jsonwebtoken</code> with your personal JSON web token.
 
 ```shell
 curl -X POST \
-  "https://api.havenapp.global/v1/users/login" \
+  'https://api.havenapp.global/v1/users/login' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   -d 'email=your@email.com&password=password'
 ```
@@ -85,7 +85,7 @@ Remember — a happy user is an authenticated user!
 
 ```shell
 curl -X POST \
-  "https://api.havenapp.global/v1/users/register" \
+  'https://api.havenapp.global/v1/users/register' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   -d 'email=your@email.com&password=averysafepassword&username=coolestusername'
 ```
@@ -120,7 +120,7 @@ username  | A username for your user account
 
 ```shell
 curl -X GET \
-  https://api.havenapp.global/v1/users/current \
+  'https://api.havenapp.global/v1/users/current' \
   -H 'Authorization: Bearer jsonwetoken'
 ```
 
@@ -149,7 +149,7 @@ This endpoint retrieves the data belonging to the user that is matching the JSON
 
 ```shell
 curl -X GET \
-  https://api.havenapp.global/v1/users/:user_id \
+  'https://api.havenapp.global/v1/users/:user_id' \
   -H 'Authorization: Bearer jsonwetoken'
 ```
 
@@ -184,7 +184,7 @@ user_id   | The id for the User you're trying to retrieve information about
 
 ```shell
 curl -X PUT \
-  https://api.havenapp.global/v1/users/:user_id \
+  'https://api.havenapp.global/v1/users/:user_id' \
   -H 'Authorization: Bearer jsonwetoken'
 ```
 
@@ -222,8 +222,108 @@ Parameter | Description
 username  | The id for the User you're trying to retrieve information about
 name      | Updated name for the user
 email     | Updated email for the user
-avatar    | Updated avatar for the user in Base64 format
 tagline   | Updated tagline for the user
+
+## List a users Havens
+
+```shell
+curl -X GET \
+  'https://api.havenapp.global/v1/users/:user_id/havens' \
+  -H 'Authorization: Bearer jsonwetoken'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "havens": [
+        {
+            "_id": "5cb611ded015660d4183722c",
+            "name": "C++",
+            "tagline": "Software for world changers",
+            "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555435998/haven/havens/banners/d9xq1udw9508wzlwffrs.jpg"
+        },
+        {
+            "_id": "5cb6123dd015660d4183722d",
+            "name": "Apple",
+            "tagline": "Scamming the world, one repair at a time",
+            "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555584522/sl2gvx6c9prxl5ijxwp1.png"
+        }
+    ]
+}
+```
+
+This endpoint finds the Haven's of which a user is a member or owner. It returns each Haven's id, name, tagline and banner.
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/users/:user_id/havens`
+
+### Query Parameters
+
+Parameter | Description
+--------- | -----------
+user_id   | The id for the User you're trying to retrieve information about
+
+## Delete a user's account
+
+```shell
+curl -X DELETE \
+  'https://api.havenapp.global/v1/users/:user_id' \
+  -H 'Authorization: Bearer jsonwetoken'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "success": true,
+    "msg": "Your account was succesfully deleted."
+}
+```
+
+This endpoint deletes the user account for the provided user_id param, as long as it matches the user_id of the requester. All data belonging to the user is automatically purged and deleted.
+
+### HTTP Request
+
+`PUT https://api.havenapp.global/v1/users/:user_id`
+
+### Query Parameters
+
+Parameter | Description
+--------- | -----------
+user_id   | The id for the User you're trying to retrieve information about
+
+## Upload/update user's avatar
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/users/avatar' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -d 'dataURI=base64imagestring'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Succesfully updated user profile avatar",
+    "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555624914/yx2jjvzaacsc7eattblw.jpg",
+    "status": 200
+}
+```
+
+This endpoint allows you to post an avatar that overwrites the existing avatar. The parameter needs to be a Base64 string, which is then decoded and stored into Cloudinary.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/users/avatar`
+
+### Query Parameters
+
+Parameter | Description
+--------- | -----------
+dataURI   | Base64 image string for the Haven banner
 
 # Haven
 
@@ -231,7 +331,7 @@ tagline   | Updated tagline for the user
 
 ```shell
 curl -X POST \
-  "https://api.havenapp.global/v1/haven/" \
+  'https://api.havenapp.global/v1/haven/' \
   -H 'Authorization: Bearer jsonwetoken' \
   -F 'name=Apple' \
   -F 'tagline=Scamming the world, one repair at a time' \
@@ -279,7 +379,7 @@ tagline   | The tagline (description) for your Haven, catchy please! |
 
 ```shell
  curl -X DELETE \
-  "https://api.havenapp.global/v1/haven/:haven_id" \
+  'https://api.havenapp.global/v1/haven/:haven_id' \
   -H 'Authorization: Bearer jsonwetoken'
 ```
 
@@ -543,3 +643,412 @@ Parameter | Description
 name      | New name for the Haven
 tagline   | New tagline for the Haven
 banner    | Base64 image for the Haven
+
+# Hangout
+
+## Create a new post
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/hangout/:haven_id/post' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -d 'title=Posttitle&description=The%20%description%20for%20your%20%post&location=10039&dataURI=base64imagestring
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Succesfully created the Hangout post",
+    "hangoutId": "5cb8fad18488d6302619b742",
+    "conversationId": "5cb8facf8488d6302619b740",
+    "status": 200
+}
+```
+
+This endpoints allows you to create a new post for a Haven you're a member or owner of.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/hangout/:haven_id/post`
+
+### Query Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+haven_id   | The id for the Haven you're sending a post to
+
+### Body Parameters
+
+Parameter | Description |
+--------- | ----------- |
+title     | The title for the post that you want to create
+name      | The description for the post, shown in the form of a tagline
+dataURI   | The picture (Base64) that will be used to show in the feed
+location  | ZIP code of the user
+eventDate | An (optional) event date for the post
+
+## Join a post by id
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/hangout/:hangout_id/join' \
+  -H 'Authorization: Bearer jsonwetoken' \
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Succesfully created the Hangout post",
+    "hangoutId": "5cb8fad18488d6302619b742",
+    "conversationId": "5cb8facf8488d6302619b740",
+    "status": 200
+}
+```
+
+This endpoint allows you to join a Hangout as a user, which also makes you a part of the ongoing conversationId.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/hangout/:hangout_id/join`
+
+### Query Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+hangout_id | The id for the hangout (post/chat) that you're trying to join
+
+## Retrieve all posts of a Haven
+
+```shell
+curl -X GET \
+  'https://api.havenapp.global/v1/hangout/:haven_id/posts' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -F pageNo=2 \
+  -F size=10
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Succesfully retrieved Hangout posts",
+    "Posts": [
+        {
+            "_id": "5cb65c37c0bb758e69bdf074",
+            "title": "Galaxy",
+            "description": "For all the black holes out there!",
+            "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555455029/ncphwoxrfrtggpidgkjd.png",
+            "location": "12339",
+            "conversationId": "5cb65c34c0bb758e69bdf072",
+            "havenId": "5cb087a067e521fdc6f9bba0"
+        },
+        {
+            "_id": "5cb65b73587af38c11501d93",
+            "title": "Galaxy",
+            "description": "For all the black holes out there!",
+            "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555454833/fcszev8tvryaldkwqigc.png",
+            "location": "12339",
+            "conversationId": "5cb65b6f587af38c11501d91",
+            "havenId": "5cb087a067e521fdc6f9bba0"
+        },
+        {
+            "_id": "5cb5e6c8cccbc30d82f0ff53",
+            "title": "Post title",
+            "description": "Post description",
+            "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555424967/haven/havens/posts/erumcfyrydznjzjyfscw.jpg",
+            "location": "10031",
+            "conversationId": "5cb5e6c8cccbc30d82f0ff52",
+            "havenId": "5cb087a067e521fdc6f9bba0"
+        }
+    ],
+    "status": 200
+}
+```
+
+This endpoint allows you to retrieve all posts that are part of a Haven (specified by the id).
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/hangout/:haven_id/posts`
+
+### Query Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+haven_id   | The id for the Haven you're trying to retrieve posts from
+
+### Body Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+pageNo     | Page number to load more posts (pagination)
+size       | The amount of posts you want to load per page (pagination)
+
+## Reply to a Hangout conversation
+
+```shell
+
+curl -X POST \
+  'http://localhost:5000/v1/hangout/reply/:conversationId' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'composedMessage=Yoooo'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Reply succesfully sent.",
+    "chat": {
+        "delivered": false,
+        "read": false,
+        "_id": "5cb998fc947e5018cc3c1a89",
+        "conversationId": "5cb65c34c0bb758e69bdf072",
+        "chatMessage": "Yooo Hangout, what's good my dudes?",
+        "sender": "5c8fee7a6b8e37f8cf4096b5",
+        "hangoutName": "Galaxy",
+        "createdAt": "2019-04-19T09:46:36.640Z",
+        "updatedAt": "2019-04-19T09:46:36.640Z",
+        "__v": 0
+    },
+    "status": 200
+}
+```
+
+This endpoint allows you to reply to a conversation that is part of a Hangout.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/hangout/reply/:conversationId`
+
+### Query Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+conversationId | The id for the conversation you're replying to
+composedMessage | The message a user is sending
+
+### Body Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+composedMessage | The message a user is sending
+
+# Chat
+
+## Start a new private chat
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/chat/new/:user_id' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -d 'composedMessage=hifriend
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Conversation started!",
+    "conversationId": "5cb99a8d5a71af27e8867927",
+    "status": 200
+}
+```
+
+This endpoints allows you to start a new private (one-to-one) chat with another user.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/chat/new/:user_id`
+
+### Query Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+user_id    | The id of the user you're sending the message to
+
+### Body Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+composedMessage | The message you're sending to the other user in the private chat
+
+## Reply to a private chat
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/chat/reply/:conversationId' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -d 'composedMessage=Lmao!&receiver=receiver_user_id'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Reply succesfully sent.",
+    "status": 200
+}
+```
+
+This endpoints allows you to reply to a private (one-to-one) chat with another user.
+
+### HTTP Request
+
+`POST https:///api.havenapp.global/v1/chat/reply/:conversationId`
+
+### Query Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+user_id    | The id of the user you're sending the message to
+
+### Body Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+composedMessage | The message you're sending to the other user in the private chat
+receiver   | The user_id for the receiver of the message you are sending
+
+## Retrieve a single conversation
+
+```shell
+curl -X GET \
+  'https://api.havenapp.global/v1/chat/:conversationId' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -d 'composedMessage=Lmao!&receiver=receiver_user_id'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Reply succesfully sent.",
+    "status": 200
+}
+```
+
+This endpoints allows you to retrieve all messages inside a private (one-to-one) chat with another user.
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/chat/:conversationId`
+
+### Query Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+conversationId | The id for the conversation you're getting the messages from
+
+### Body Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+pageNo     | Page number to load more message (pagination)
+size       | The amount of messages you want to load per page (pagination)
+
+## Retrieve current user's chats
+
+```shell
+curl -X GET \
+  'https://api.havenapp.global/v1/chat/' \
+  -H 'Authorization: Bearer jsonwetoken'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Conversations retrieved",
+    "conversations": [
+        [
+            {
+                "conversationId": "5cb5d23aff266cdb38c87b72",
+                "chatMessage": "Hey Craig",
+                "sender": {
+                    "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1554911632/haven/avatars/m7fgxp6odiyaqdmqhxpw.jpg",
+                    "_id": "5c8fee7a6b8e37f8cf4096b5",
+                    "username": "bob"
+                },
+                "receiver": {
+                    "avatar": "https://api.havenapp.global/images/avatar.png",
+                    "_id": "5cb5cfb94262e7c689ef0cbe",
+                    "username": "craig"
+                },
+                "createdAt": "2019-04-16T13:01:46.554Z"
+            }
+        ],
+        [
+            {
+                "conversationId": "5cb5d246ff266cdb38c87b74",
+                "chatMessage": "Hey Richard",
+                "sender": {
+                    "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1554911632/haven/avatars/m7fgxp6odiyaqdmqhxpw.jpg",
+                    "_id": "5c8fee7a6b8e37f8cf4096b5",
+                    "username": "bob"
+                },
+                "receiver": {
+                    "avatar": "https://api.havenapp.global/images/avatar.png",
+                    "_id": "5cb5cfc14262e7c689ef0cbf",
+                    "username": "richard"
+                },
+                "createdAt": "2019-04-16T13:01:58.086Z"
+            }
+        ],
+        [
+            {
+                "conversationId": "5cb65c34c0bb758e69bdf072",
+                "chatMessage": "Yooo Hangout, what's good my dudes?",
+                "sender": {
+                    "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1554911632/haven/avatars/m7fgxp6odiyaqdmqhxpw.jpg",
+                    "_id": "5c8fee7a6b8e37f8cf4096b5",
+                    "username": "bob"
+                },
+                "createdAt": "2019-04-19T09:46:36.640Z"
+            }
+        ],
+    ],
+    "status": 200
+}
+```
+
+This endpoints allows you to retrieve all conversations, showing the most recent message per "thread".
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/chat/`
+
+# Feedback
+
+## Send feedback form to admin email
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/feedback' \
+  -H 'Authorization: Bearer jsonwetoken' \
+  -d 'message=Yourmessagehere'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "message": "Success. Feedback email has been sent",
+    "status": 200
+}
+```
+
+This endpoints allows you to send a feedback form which will be dispatched using NodeMailer, through SendGrid, to the admin email.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/feedback`
+
+### Body Parameters
+
+Parameter  | Description |
+---------- | ----------- |
+message    | The feedback message containing the body of the message
