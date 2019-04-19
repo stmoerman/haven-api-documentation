@@ -890,6 +890,18 @@ curl -X POST \
 ```json
 {
     "message": "Reply succesfully sent.",
+    "chat": {
+        "delivered": false,
+        "read": false,
+        "_id": "5cba41d66d8b605d8c9bb74a",
+        "conversationId": "5cb99a8d5a71af27e8867927",
+        "chatMessage": "Ok well Im out pce",
+        "sender": "5c8fee7a6b8e37f8cf4096b5",
+        "receiver": "5c8fee8c6b8e37f8cf4096b6",
+        "createdAt": "2019-04-19T21:47:02.828Z",
+        "updatedAt": "2019-04-19T21:47:02.828Z",
+        "__v": 0
+    },
     "status": 200
 }
 ```
