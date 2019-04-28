@@ -75,7 +75,7 @@ This endpoint retrieves all kittens.
 Parameter | Description |
 --------- | ----------- |
 email     | your email address used for Haven |
-available | your password |
+password  | your password |
 
 <aside class="success">
 Remember — a happy user is an authenticated user!
@@ -180,7 +180,7 @@ Parameter | Description
 --------- | -----------
 user_id   | The id for the User you're trying to retrieve information about
 
-## Update a user's details
+## Update your user account details
 
 ```shell
 curl -X PUT \
@@ -203,7 +203,7 @@ curl -X PUT \
 }
 ```
 
-This endpoint updates the data belonging to the user that is matching the specified user_id. For this endpoint it is not necessary to provide all the fields, as it will only update the field that you pass along in the body params.
+This endpoint updates the data belonging to the user that is matching the specified user_id. For this endpoint it is **not** necessary to provide all the fields, as it will only update the field that you pass along in the body params.
 
 ### HTTP Request
 
@@ -213,16 +213,18 @@ This endpoint updates the data belonging to the user that is matching the specif
 
 Parameter | Description
 --------- | -----------
-user_id   | The id for the User you're trying to retrieve information about
+user_id   | Your user account user_id
 
 ### Body Parameters
 
 Parameter | Description
 --------- | -----------
-username  | The id for the User you're trying to retrieve information about
-name      | Updated name for the user
-email     | Updated email for the user
-tagline   | Updated tagline for the user
+username  | Updated username for your user account
+name      | Updated name for your user account
+email     | Updated email for your user account
+location  | Updated location for your user account
+tagline   | Updated tagline for your user account
+avatar    | Updated base64 avatar for your user account
 
 ## List a users Havens
 
@@ -292,38 +294,7 @@ This endpoint deletes the user account for the provided user_id param, as long a
 
 Parameter | Description
 --------- | -----------
-user_id   | The id for the User you're trying to retrieve information about
-
-## Upload/update user's avatar
-
-```shell
-curl -X POST \
-  'https://api.havenapp.global/v1/users/avatar' \
-  -H 'Authorization: Bearer jsonwetoken' \
-  -d 'dataURI=base64imagestring'
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-    "message": "Succesfully updated user profile avatar",
-    "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555624914/yx2jjvzaacsc7eattblw.jpg",
-    "status": 200
-}
-```
-
-This endpoint allows you to post an avatar that overwrites the existing avatar. The parameter needs to be a Base64 string, which is then decoded and stored into Cloudinary.
-
-### HTTP Request
-
-`POST https://api.havenapp.global/v1/users/avatar`
-
-### Query Parameters
-
-Parameter | Description
---------- | -----------
-dataURI   | Base64 image string for the Haven banner
+user_id   | Your user account user_id
 
 # Haven
 
@@ -361,11 +332,11 @@ curl -X POST \
 }
 ```
 
-This endpoint retrieves all kittens.
+This endpoint creates a new Haven.
 
 ### HTTP Request
 
-`POST https://api.havenapp.global/v1/users/login`
+`POST https://api.havenapp.global/v1/haven/`
 
 ### Body Parameters
 
@@ -642,7 +613,7 @@ Parameter | Description
 --------- | -----------
 name      | New name for the Haven
 tagline   | New tagline for the Haven
-banner    | Base64 image for the Haven
+dataURI   | Base64 image for the Haven
 
 # Hangout
 
@@ -683,7 +654,7 @@ haven_id   | The id for the Haven you're sending a post to
 Parameter | Description |
 --------- | ----------- |
 title     | The title for the post that you want to create
-name      | The description for the post, shown in the form of a tagline
+description | The description for the post, shown in the form of a tagline
 dataURI   | The picture (Base64) that will be used to show in the feed
 location  | ZIP code of the user
 eventDate | An (optional) event date for the post
