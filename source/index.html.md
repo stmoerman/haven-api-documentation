@@ -149,6 +149,35 @@ This endpoint refreshes your JWT when it expired.
 Remember — a happy user is an refreshed user!
 </aside>
 
+## Reset password request
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/users/forgot-password' \
+  -d 'email=your@email.com'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": "An e-mail has been sent to stephan@scopeweb.nyc with further instructions.",
+  "status": 200
+}
+```
+
+This endpoint sends a password reset token to the users email address, allowing them to regain access to their account
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/users/forgot-password`
+
+### Body Parameters
+
+| Parameter | Description                       |
+| --------- | --------------------------------- |
+| email     | your email address used for Haven |
+
 # User
 
 ## Retrieve current user
@@ -156,7 +185,7 @@ Remember — a happy user is an refreshed user!
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/users/current' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -185,7 +214,7 @@ This endpoint retrieves the data belonging to the user that is matching the JSON
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/users/:user_id' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -220,7 +249,7 @@ This endpoint retrieves the data belonging to the user that is matching the spec
 ```shell
 curl -X PUT \
   'https://api.havenapp.global/v1/users/:user_id' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -266,7 +295,7 @@ This endpoint updates the data belonging to the user that is matching the specif
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/users/:user_id/havens' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -307,7 +336,7 @@ This endpoint finds the Haven's of which a user is a member or owner. It returns
 ```shell
 curl -X DELETE \
   'https://api.havenapp.global/v1/users/:user_id' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -338,7 +367,7 @@ This endpoint deletes the user account for the provided user_id param, as long a
 ```shell
 curl -X POST \
   'https://api.havenapp.global/v1/haven/' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -F 'name=Apple' \
   -F 'tagline=Scamming the world, one repair at a time' \
   -F 'image=base64imagestring'
@@ -382,7 +411,7 @@ This endpoint creates a new Haven.
 ```shell
  curl -X DELETE \
   'https://api.havenapp.global/v1/haven/:haven_id' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -413,7 +442,7 @@ This endpoint deletes a Haven that you're the owner of.
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/haven/:haven_id' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -458,7 +487,7 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/haven/:haven_id/members' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -511,7 +540,7 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 ```shell
 curl -X POST \
   'https://api.havenapp.global/v1/haven/:haven_id' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -539,7 +568,7 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/haven/' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -614,7 +643,7 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 ```shell
 curl -X PUT \
   'https://api.havenapp.global/v1/haven/:haven_id' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -650,7 +679,7 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 ```shell
 curl -X POST \
   https://api.havenapp.global/v1/haven/:haven_id/announcement \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -H 'Connection: keep-alive' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   -d 'title=First%20announcement&description=your announcement description&dataURI=ibase64imagestring&location=zipcode'
@@ -707,7 +736,7 @@ This endpoint allows owners and admins to post an announcement to a Haven.
 ```shell
 curl -X POST \
   'https://api.havenapp.global/v1/hangout/:haven_id/post' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -d 'title=Posttitle&description=The%20%description%20for%20your%20%post&location=10039&dataURI=base64imagestring
 ```
 
@@ -749,7 +778,7 @@ This endpoints allows you to create a new post for a Haven you're a member or ow
 ```shell
 curl -X POST \
   'https://api.havenapp.global/v1/hangout/:hangout_id/join' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
 ```
 
 > The above command returns JSON structured like this:
@@ -780,7 +809,7 @@ This endpoint allows you to join a Hangout as a user, which also makes you a par
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/hangout/:haven_id/posts' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -F pageNo=2 \
   -F size=10
 ```
@@ -848,7 +877,7 @@ This endpoint allows you to retrieve all posts that are part of a Haven (specifi
 
 curl -X POST \
   'http://localhost:5000/v1/hangout/reply/:conversationId' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   -d 'composedMessage=Yoooo'
 ```
@@ -930,7 +959,7 @@ This endpoint allows you to delete a Hangout & the conversation belonging to it.
 ```shell
 curl -X POST \
   'https://api.havenapp.global/v1/chat/new/:user_id' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -d 'composedMessage=hifriend
 ```
 
@@ -967,7 +996,7 @@ This endpoints allows you to start a new private (one-to-one) chat with another 
 ```shell
 curl -X POST \
   'https://api.havenapp.global/v1/chat/reply/:conversationId' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -d 'composedMessage=Lmao!&receiver=receiver_user_id'
 ```
 
@@ -1016,7 +1045,7 @@ This endpoints allows you to reply to a private (one-to-one) chat with another u
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/chat/:conversationId' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -d 'composedMessage=Lmao!&receiver=receiver_user_id'
 ```
 
@@ -1053,7 +1082,7 @@ This endpoints allows you to retrieve all messages inside a private (one-to-one)
 ```shell
 curl -X GET \
   'https://api.havenapp.global/v1/chat/' \
-  -H 'Authorization: Bearer jsonwetoken'
+  -H 'Authorization: Bearer jsonwebtoken'
 ```
 
 > The above command returns JSON structured like this:
@@ -1126,7 +1155,7 @@ This endpoints allows you to retrieve all conversations, showing the most recent
 ```shell
 curl -X POST \
   'https://api.havenapp.global/v1/feedback' \
-  -H 'Authorization: Bearer jsonwetoken' \
+  -H 'Authorization: Bearer jsonwebtoken' \
   -d 'message=Yourmessagehere'
 ```
 
@@ -1150,3 +1179,242 @@ This endpoints allows you to send a feedback form which will be dispatched using
 | Parameter | Description                                             |
 | --------- | ------------------------------------------------------- |
 | message   | The feedback message containing the body of the message |
+
+# Report
+
+## Retrieve all reports
+
+```shell
+curl -X GET \
+  'https://api.havenapp.global/v1/report' \
+  -H 'Authorization: Bearer jsonwebtoken'
+  -d 'type=report type'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "reports": [
+    {
+      "_id": "5ce866ba0a003baff90189f6",
+      "type": "haven",
+      "description": "This Haven is acting up real weird, bunch of guys posting the weirdest stuff. I'd rather hang with the cool kids, you know?",
+      "date": "2019-05-24T21:48:42.417Z",
+      "havenId": {
+        "_id": "5cc8acb35c08630a030bae1f",
+        "owners": [
+          "5cc719d7cae6c00faaebad34",
+          "5cc71e1ea15f3c2bd836f66c",
+          "5cc71f18a15f3c2bd836f66e"
+        ],
+        "name": "Test_Haven"
+      },
+      "reportedBy": {
+        "_id": "5cc71f18a15f3c2bd836f66e",
+        "avatar": "https://api.havenapp.global/images/avatar.png",
+        "username": "johndoe"
+      },
+      "createdAt": "2019-05-24T21:48:42.420Z",
+      "updatedAt": "2019-05-24T21:48:42.420Z",
+      "__v": 0
+    }
+  ],
+  "status": 200
+}
+```
+
+This endpoint retrieves the reports that have been sent by users, after verifying your Admin role. Optionally, you can specify a type in the request of the body to retrieve the specific reports by type (i.e. haven, hangout, user).
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/report`
+
+### Body Parameters
+
+| Parameter | Description                                              |
+| --------- | -------------------------------------------------------- |
+| type      | (Optional) the type of report you are trying to retrieve |
+
+## Retrieve a Report by report_id
+
+```shell
+curl -X GET \
+  'https://api.havenapp.global/v1/report/:report_id' \
+  -H 'Authorization: Bearer jsonwebtoken'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "report": {
+    "_id": "5ce866ba0a003baff90189f6",
+    "type": "haven",
+    "description": "This Haven is acting up real weird, bunch of guys posting the weirdest stuff. I'd rather hang with the cool kids, you know?",
+    "date": "2019-05-24T21:48:42.417Z",
+    "havenId": {
+      "admins": [],
+      "owners": [
+        "5cc719d7cae6c00faaebad34",
+        "5cc71e1ea15f3c2bd836f66c",
+        "5cc71f18a15f3c2bd836f66e"
+      ],
+      "_id": "5cc8acb35c08630a030bae1f",
+      "name": "Test_Haven"
+    },
+    "reportedBy": {
+      "avatar": "https://api.havenapp.global/images/avatar.png",
+      "_id": "5cc71f18a15f3c2bd836f66e",
+      "username": "stephan"
+    }
+  },
+  "status": 200
+}
+```
+
+This endpoint retrieves a report by it's report_id, after verifying your Admin role.
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/report/:report_id`
+
+## Report a Haven by haven_id
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/report/haven/:haven_id' \
+  -H 'Authorization: Bearer jsonwebtoken' \
+  -d 'description=Your report message here'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": "Haven report was succesfully generated",
+  "report": {
+    "_id": "5ce956999d66e749eee046a7",
+    "type": "haven",
+    "date": "2019-05-25T14:52:09.306Z",
+    "havenId": "5cc8acb35c08630a030bae1f",
+    "reportedBy": "5cc71f18a15f3c2bd836f66e",
+    "createdAt": "2019-05-25T14:52:09.308Z",
+    "updatedAt": "2019-05-25T14:52:09.308Z",
+    "__v": 0
+  },
+  "status": 200
+}
+```
+
+This endpoint generates a report for a Haven, based on the haven_id.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/report/haven/:haven_id`
+
+### Query Parameters
+
+| Parameter | Description                                        |
+| --------- | -------------------------------------------------- |
+| haven_id  | The id for the Haven you're sending a report about |
+
+### Body Parameters
+
+| Parameter   | Description                                                    |
+| ----------- | -------------------------------------------------------------- |
+| description | The report message specified by the person reporting the Haven |
+
+## Report a User by user_id
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/report/user/:user_id' \
+  -H 'Authorization: Bearer jsonwebtoken' \
+  -d 'description=Your report message here'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": "User report was succesfully generated",
+  "report": {
+    "_id": "5ce957c46135314d1474ee24",
+    "type": "user",
+    "description": "This Admin is wild, using a pretty wack avatar that does not fit this platform ey!",
+    "date": "2019-05-25T14:57:08.501Z",
+    "userId": "5cc719d7cae6c00faaebad34",
+    "reportedBy": "5cc71f18a15f3c2bd836f66e",
+    "createdAt": "2019-05-25T14:57:08.501Z",
+    "updatedAt": "2019-05-25T14:57:08.501Z",
+    "__v": 0
+  },
+  "status": 200
+}
+```
+
+This endpoint generates a report for a User, based on the user_id.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/report/user/:user_id`
+
+### Query Parameters
+
+| Parameter | Description                                       |
+| --------- | ------------------------------------------------- |
+| user_id   | The id for the User you're sending a report about |
+
+### Body Parameters
+
+| Parameter   | Description                                                   |
+| ----------- | ------------------------------------------------------------- |
+| description | The report message specified by the person reporting the User |
+
+## Report a Hangout by hangout_id
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/report/hangout/:hangout_id' \
+  -H 'Authorization: Bearer jsonwebtoken' \
+  -d 'description=Your report message here'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": "Hangout report was succesfully generated",
+  "report": {
+    "_id": "5ce95a5965c5b353e97e78f2",
+    "type": "hangout",
+    "description": "This name is unacceptable, we can't mess with time.. this is outside of the scope of human influence!",
+    "date": "2019-05-25T15:08:09.903Z",
+    "hangoutId": "5cddce5345a54671917b7523",
+    "reportedBy": "5cc71f18a15f3c2bd836f66e",
+    "createdAt": "2019-05-25T15:08:09.904Z",
+    "updatedAt": "2019-05-25T15:08:09.904Z",
+    "__v": 0
+  },
+  "status": 200
+}
+```
+
+This endpoint generates a report for a User, based on the user_id.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/report/hangout/:hangout_id`
+
+### Query Parameters
+
+| Parameter  | Description                                          |
+| ---------- | ---------------------------------------------------- |
+| hangout_id | The id for the Hangout you're sending a report about |
+
+### Body Parameters
+
+| Parameter   | Description                                                   |
+| ----------- | ------------------------------------------------------------- |
+| description | The report message specified by the person reporting the User |
