@@ -821,6 +821,36 @@ This endpoint allows owners and admins to post an announcement to a Haven.
 | data (optional) | Optional data for the announcement    |
 | location        | Location for the announcement         |
 
+## Retrieve joinCode (as owner or admin)
+
+```shell
+curl -X GET \
+  https://api.havenapp.global/v1/haven/:haven_id/joinCode \
+  -H 'Authorization: Bearer jsonwebtoken' \
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "success": "Retrieved joinCode",
+  "joinCode": "1a2b3c4dbe",
+  "status": 200
+}
+```
+
+This endpoint allows owners and admins to retrieve a Haven's joinCode.
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/haven/:haven_id/joinCode`
+
+### Query Parameters
+
+| Parameter | Description                                               |
+| --------- | --------------------------------------------------------- |
+| haven_id  | The id for the Haven you want to retrieve the code from   |
+
 # Hangout
 
 ## Create a new post
