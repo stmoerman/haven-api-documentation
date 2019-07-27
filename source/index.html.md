@@ -51,7 +51,7 @@ You must replace <code>jsonwebtoken</code> with your personal JSON web token.
 curl -X POST \
   'https://api.havenapp.global/v1/users/login' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'email=your@email.com&password=password'
+  -d 'email=your@email.com&password=password&registrationToken=registrationToken'
 ```
 
 > The above command returns JSON structured like this:
@@ -77,6 +77,7 @@ This endpoint performs a login authentication request and returns JWT, expiresIn
 | --------- | --------------------------------- |
 | email     | your email address used for Haven |
 | password  | your password                     |
+| registrationToken | Google FCM registration token |
 
 <aside class="success">
 Remember — a happy user is an authenticated user!
@@ -95,7 +96,8 @@ curl -X POST \
 
 ```json
 {
-  "message": "Registration successful."
+  "message": "Registration successful.",
+  "status": 200
 }
 ```
 
@@ -161,7 +163,7 @@ curl -X POST \
 
 ```json
 {
-  "success": "An e-mail has been sent to stephan@scopeweb.nyc with further instructions.",
+  "success": "An e-mail has been sent to your@email.com with further instructions.",
   "status": 200
 }
 ```
@@ -176,7 +178,7 @@ This endpoint sends a password reset token to the users email address, allowing 
 
 | Parameter | Description                       |
 | --------- | --------------------------------- |
-| email     | your email address used for Haven |
+| email     | Your email address used for Haven |
 
 # User
 
@@ -192,14 +194,19 @@ curl -X GET \
 
 ```json
 {
-  "avatar": "https://i.imgur.com/kpSxSxm.jpg",
-  "role": "user",
-  "active": true,
-  "_id": "5cb258e8ee4c175e5b348fbe",
-  "username": "bobby78",
-  "name": "Bob Plumb",
-  "lastLogin": "2019-04-13T21:47:20.511Z",
-  "tagline": "Truckin'\n#workaholic #country #coors"
+  "user": {
+      "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1560257979/haven/users/avatar/jason.jpg",
+      "role": "user",
+      "hangoutCount": 0,
+      "huddleCount": 0,
+      "banned": false,
+      "_id": "5cff7e05b2ef9817982df13b",
+      "username": "jason",
+      "email": "jason@jason.com",
+      "lastLogin": "2019-06-11T12:36:18.615Z",
+      "tagline": ""
+  },
+  "status": 200
 }
 ```
 
@@ -207,7 +214,7 @@ This endpoint retrieves the data belonging to the user that is matching the JSON
 
 ### HTTP Request
 
-`GET https://api.havenapp.global/v1/users/:user_id`
+`GET https://api.havenapp.global/v1/users/current`
 
 ## Retrieve user by id
 
@@ -221,14 +228,20 @@ curl -X GET \
 
 ```json
 {
-  "avatar": "https://i.imgur.com/kpSxSxm.jpg",
-  "role": "user",
-  "active": true,
-  "_id": "5cb22bd4ee4c175e5b348fb7",
-  "username": "tech_lead",
-  "name": "The Tech Lead",
-  "lastLogin": "2019-04-13T18:35:00.318Z",
-  "tagline": "I am the Tech Lead on The Tech Lead. 💻"
+  "user": {
+    "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1560257979/haven/users/avatar/jason.jpg",
+    "role": "user",
+    "hangoutCount": 0,
+    "huddleCount": 0,
+    "banned": false,
+    "_id": "5cff7e05b2ef9817982df13b",
+    "username": "jason",
+    "name": "Jason",
+    "lastLogin": "2019-06-13T14:22:13.833Z",
+    "location": "San Francisco, CA",
+    "tagline": ""
+  },
+  "status": 200
 }
 ```
 
@@ -256,14 +269,25 @@ curl -X PUT \
 
 ```json
 {
-  "avatar": "https://i.imgur.com/kpSxSxm.jpg",
-  "role": "user",
-  "active": true,
-  "_id": "5cb22bd4ee4c175e5b348fb7",
-  "username": "tech_lead",
-  "name": "The Tech Lead",
-  "lastLogin": "2019-04-13T18:35:00.318Z",
-  "tagline": "I am the Tech Lead on The Tech Lead. 💻"
+  "message": "Succesfully updated user profile details.",
+  "user": {
+    "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1560437447/haven/users/avatar/jason.jpg",
+    "role": "user",
+    "hangoutCount": 0,
+    "huddleCount": 0,
+    "banned": false,
+    "_id": "5cff7e05b2ef9817982df13b",
+    "username": "jason",
+    "email": "jason@jason.com",
+    "age": "2002-05-16T12:50:47.072Z",
+    "lastLogin": "2019-06-13T14:22:13.833Z",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjZmY3ZTA1YjJlZjk4MTc5ODJkZjEzYiIsInVzZXJuYW1lIjoiamFzb24iLCJhdmF0YXIiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9zY29wZS13ZWItbGxjL2ltYWdlL3VwbG9hZC92MTU2MDI1Nzk3OS9oYXZlbi91c2Vycy9hdmF0YXIvamFzb24uanBnIiwicm9sZSI6InVzZXIiLCJpYXQiOjE1NjA0MzcxMDMsImV4cCI6MTU5MTk5NDcwM30.DHAE-4AJVXwqbozZ8uK2ZkryzDUAGjont5Hw5Neu58k",
+    "tagline": "",
+    "name": "Jason",
+    "location": "San Francisco, CA",
+    "updatedAt": "2019-06-13T14:50:47.624Z"
+  },
+  "status": 200
 }
 ```
 
@@ -304,18 +328,23 @@ curl -X GET \
 {
   "havens": [
     {
-      "_id": "5cb611ded015660d4183722c",
-      "name": "C++",
-      "tagline": "Software for world changers",
-      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555435998/haven/havens/banners/d9xq1udw9508wzlwffrs.jpg"
+      "huddles": 0,
+      "admins": [],
+      "_id": "5cf81c3ae5418a20ded7887e",
+      "name": "Test Haven",
+      "tagline": "tagline for days",
+      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1559764025/haven/havens/banners/xrbrjxfirbnhwrcwrhhy.jpg"
     },
     {
-      "_id": "5cb6123dd015660d4183722d",
-      "name": "Apple",
-      "tagline": "Scamming the world, one repair at a time",
-      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555584522/sl2gvx6c9prxl5ijxwp1.png"
+      "huddles": 0,
+      "admins": [],
+      "_id": "5cf81c3ae5418a20ded7887f",
+      "name": "Test Haven 2",
+      "tagline": "tagline for days 2",
+      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1559764025/haven/havens/banners/xrbrjxfirbnhwrcwrhhy.jpg"
     }
-  ]
+  ],
+  "status": 200
 }
 ```
 
@@ -344,7 +373,8 @@ curl -X DELETE \
 ```json
 {
   "success": true,
-  "msg": "Your account was succesfully deleted."
+  "msg": "Your account was succesfully deleted.",
+  "status": 200
 }
 ```
 
@@ -359,6 +389,38 @@ This endpoint deletes the user account for the provided user_id param, as long a
 | Parameter | Description               |
 | --------- | ------------------------- |
 | user_id   | Your user account user_id |
+
+## Update user's location
+
+```shell
+curl -X PUT \
+  'https://api.havenapp.global/v1/users/status/update_location' \
+  -H 'Authorization: Bearer jsonwebtoken'
+  -d current_location=12345
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "message": "Succesfully updated your location.",
+  "current_location": "12345",
+  "status": 200
+}
+```
+
+This endpoint updates the data belonging to the user that is matching the specified user_id. For this endpoint it is **not** necessary to provide all the fields, as it will only update the field that you pass along in the body params.
+
+### HTTP Request
+
+`PUT https://api.havenapp.global/v1/users/status/update_location`
+
+### Body Parameters
+
+| Parameter        | Description                                    |
+| ---------------- | ---------------------------------------------- |
+| current_location | Updated current location for your user account |
+
 
 # Haven
 
@@ -437,7 +499,7 @@ This endpoint deletes a Haven that you're the owner of.
 | --------- | ------------------------------------------------------------------- |
 | haven_id  | The id for the Haven you want to delete (as the owner of the Haven) |
 
-## Get a Haven by id
+## Get Haven by id
 
 ```shell
 curl -X GET \
@@ -449,24 +511,26 @@ curl -X GET \
 
 ```json
 {
-  "members": [
-    {
-      "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1554911632/haven/avatars/m7fgxp6odiyaqdmqhxpw.jpg",
-      "_id": "5c8fee7a6b8e37f8cf4096b5",
-      "username": "bob"
-    }
-  ],
-  "owners": [
-    {
-      "avatar": "https://res.cloudinary.com/scope-web-llc/image/upload/v1554911632/haven/avatars/m7fgxp6odiyaqdmqhxpw.jpg",
-      "_id": "5c8fee7a6b8e37f8cf4096b5",
-      "username": "bob"
-    }
-  ],
-  "_id": "5cb087a067e521fdc6f9bba0",
-  "name": "Bob's burgers 🍔",
-  "tagline": "More pickles, more onions, no cheese!",
-  "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555072928/haven/havens/banners/obzqo8fszvgrzmwkrj6x.jpg"
+    "haven": {
+        "huddles": 0,
+        "admins": [],
+        "owners": [
+            {
+                "avatar": "https://api.havenapp.global/images/avatar.png",
+                "hangoutCount": 0,
+                "huddleCount": 0,
+                "_id": "5cff9614ffbb29d1b130a194",
+                "username": "redangel",
+                "name": "redangel"
+            }
+        ],
+        "_id": "5d239616cb9462bc5df00a36",
+        "name": "YAYEEETTTT",
+        "tagline": "Rage gaming at it's finest",
+        "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1562613270/haven/havens/banners/YAYEEETTTT.jpg"
+    },
+    "isMember": true,
+    "status": 200
 }
 ```
 
@@ -488,38 +552,36 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 curl -X GET \
   'https://api.havenapp.global/v1/haven/:haven_id/members' \
   -H 'Authorization: Bearer jsonwebtoken'
+  -F pageNo=2 \
+  -F size=10
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "_id": "5cb611ded015660d4183722c",
-  "members": [
-    {
-      "_id": "5cb60f40ee4c175e5b348fc4",
-      "avatar": "https://i.imgur.com/kpSxSxm.jpg",
-      "username": "stephan"
-    },
-    {
-      "_id": "5cb21c34ee4c175e5b348fb5",
-      "avatar": "https://i.imgur.com/kpSxSxm.jpg",
-      "username": "pojo"
-    },
-    {
-      "_id": "5cb2301bee4c175e5b348fbc",
-      "avatar": "https://i.imgur.com/kpSxSxm.jpg",
-      "username": "skywalker"
-    },
-    {
-      "_id": "5cb25c12ee4c175e5b348fc2",
-      "avatar": "https://i.imgur.com/kpSxSxm.jpg",
-      "username": "puppies.are.love"
-    }
-  ],
-  "name": "C++",
-  "tagline": "Software for world changers",
-  "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1555435998/haven/havens/banners/d9xq1udw9508wzlwffrs.jpg"
+  "haven": {
+    "members": [
+      {
+        "avatar": "https://api.havenapp.global/images/avatar.png",
+        "hangoutCount": 0,
+        "huddleCount": 0,
+        "_id": "5cff9614ffbb29d1b130a194",
+        "username": "redangel",
+        "name": "redangel"
+      },
+      {
+        "avatar": "https://api.havenapp.global/images/avatar.png",
+        "hangoutCount": 0,
+        "huddleCount": 0,
+        "_id": "5d13c0291e89e4b212c5dc43",
+        "username": "stephan"
+      }
+    ],
+    "_id": "5d239616cb9462bc5df00a36"
+  },
+  "memberCount": 2,
+  "status": 200
 }
 ```
 
@@ -527,13 +589,15 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 
 ### HTTP Request
 
-`GET https://api.havenapp.global/v1/haven/:haven_id/`
+`GET https://api.havenapp.global/v1/haven/:haven_id/members`
 
 ### Query Parameters
 
-| Parameter | Description                                                    |
-| --------- | -------------------------------------------------------------- |
-| haven_id  | The id for the Haven you want to retrieve the information from |
+| Parameter | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| haven_id  | The id for the Haven you want to retrieve the members from   |
+| pageNo    | Page number to load more members (pagination)                |
+| size      | The amount of members you want to load per page (pagination) |
 
 ## Join a Haven by id
 
@@ -562,6 +626,34 @@ This endpoint retrieves date off one specific Haven, such as the members, owners
 | Parameter | Description                           |
 | --------- | ------------------------------------- |
 | haven_id  | The id for the Haven you want to join |
+
+## Join a Haven using joinCode
+
+```shell
+curl -X POST \
+  'https://api.havenapp.global/v1/haven/referral/:join_code' \
+  -H 'Authorization: Bearer jsonwebtoken'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "message": "Succesfully joined the Haven"
+}
+```
+
+This endpoint retrieves date off one specific Haven, such as the members, owners, name, tagline and banner.
+
+### HTTP Request
+
+`POST https://api.havenapp.global/v1/haven/referral/:join_code`
+
+### Query Parameters
+
+| Parameter | Description                           |
+| --------- | ------------------------------------- |
+| join_code | The join code provided to you by admin |
 
 ## List all available Havens
 
@@ -937,7 +1029,7 @@ curl -X DELETE \
 {
     "success": "Succesfully deleted the Hangout & Conversation",
     "status": 200
-}Post an announcement (as owner or admin)
+}
 ```
 
 This endpoint allows you to delete a Hangout & the conversation belonging to it.
@@ -951,6 +1043,107 @@ This endpoint allows you to delete a Hangout & the conversation belonging to it.
 | Parameter  | Description                               |
 | ---------- | ----------------------------------------- |
 | hangout_id | The id for the Hangout you want to delete |
+
+## Retrieve all posts you own
+
+```shell
+
+curl -X GET \
+  'https://api.havenapp.global/v1/hangout/owner' \
+  -H 'Authorization: Bearer jsonwebtoken' \
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+{
+  "message": "Succesfully retrieved all Hangout posts you are the owner off",
+  "posts": [
+    {
+      "participants": [
+        {
+          "avatar": "https://api.havenapp.global/images/avatar.png",
+          "_id": "5d13c0291e89e4b212c5dc43",
+          "username": "stephan"
+        }
+      ],
+      "_id": "5cff9cefffbb29d1b130a19b",
+      "title": "Jets for the best!",
+      "description": "Whatever lads! Get the jets!",
+      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1560255725/haven/havens/posts/y8ckdlie09hgbjzgyybh.jpg",
+      "location": "37.4219983,-122.084",
+      "eventDate": "2019-06-11T12:16:00.000Z",
+      "conversationId": "5cff9cedffbb29d1b130a19a",
+      "havenId": "5cff97aaffbb29d1b130a199",
+      "createdAt": "2019-06-11T12:22:07.326Z"
+    }
+  ],
+  "status": 200
+}
+```
+
+This endpoint allows you to retrieve all Hangout posts you're the owner off.
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/hangout/owner`
+
+## Retrieve all posts you've joined
+
+```shell
+
+curl -X GET \
+  'https://api.havenapp.global/v1/hangout/joined' \
+  -H 'Authorization: Bearer jsonwebtoken' \
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "message": "Succesfully retrieved all Hangout posts you have joined",
+  "posts": [
+    {
+      "_id": "5cf827a6b4f9493c987c1212",
+      "title": "Galaxy",
+      "description": "For all the star gazers out there!",
+      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1559766948/haven/havens/posts/vzknpsaxbkjg5bxr4ulb.png",
+      "location": "12339",
+      "conversationId": "5cf827a3b4f9493c987c1211",
+      "havenId": "5cf81c3ae5418a20ded7887e",
+      "createdAt": "2019-06-05T20:35:50.320Z"
+    },
+    {
+      "_id": "5d0f7d18f19d100e58e71a9c",
+      "title": "Galaxy 2",
+      "description": "For all the star gazers out there! 2",
+      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1561296149/haven/havens/posts/bmgmomdrxtk6a6zst28y.png",
+      "location": "12339",
+      "conversationId": "5d0f7d0df19d100e58e71a9b",
+      "havenId": "5cf81c3ae5418a20ded7887e",
+      "createdAt": "2019-06-23T13:22:32.320Z"
+    },
+    {
+      "_id": "5d0f7d47f19d100e58e71a9f",
+      "title": "Andrews Hangout",
+      "description": "Just because Andrew rocks!",
+      "banner": "https://res.cloudinary.com/scope-web-llc/image/upload/v1561296197/haven/havens/posts/v6xrvzopvt6khremizb3.png",
+      "location": "12339",
+      "conversationId": "5d0f7d43f19d100e58e71a9e",
+      "havenId": "5cf81c3ae5418a20ded7887e",
+      "createdAt": "2019-06-23T13:23:19.834Z"
+    }
+  ],
+  "status": 200
+}
+```
+
+This endpoint allows you to retrieve all Hangout posts you've joined.
+
+### HTTP Request
+
+`GET https://api.havenapp.global/v1/hangout/joined`
 
 # Chat
 
